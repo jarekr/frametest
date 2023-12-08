@@ -4,9 +4,9 @@
 pub struct TemplateApp {
     // Example stuff:
     label: String,
-
-    #[serde(skip)] // This how you opt-out of serialization of a field
+    //#[serde(skip)] // This how you opt-out of serialization of a field
     value: f32,
+    text: String,
 }
 
 impl Default for TemplateApp {
@@ -15,6 +15,7 @@ impl Default for TemplateApp {
             // Example stuff:
             label: "Hello World!".to_owned(),
             value: 2.7,
+            text: String::new(),
         }
     }
 }
@@ -60,6 +61,13 @@ impl eframe::App for TemplateApp {
                     });
                     ui.add_space(16.0);
                 }
+                ui.menu_button("File", |ui| {
+                    if ui.button("Save").clicked() {
+                        //ctx.send_viewport_cmd(egui::Vie);
+                        println!("Saving:\n{}", self.text);
+                    }
+                });
+                ui.add_space(16.0);
 
                 egui::widgets::global_dark_light_mode_buttons(ui);
             });
@@ -69,6 +77,7 @@ impl eframe::App for TemplateApp {
             // The central panel the region left after adding TopPanel's and SidePanel's
             ui.heading("eframe template");
 
+            /*
             ui.horizontal(|ui| {
                 ui.label("Write something: ");
                 ui.text_edit_singleline(&mut self.label);
@@ -79,12 +88,15 @@ impl eframe::App for TemplateApp {
                 self.value += 1.0;
             }
 
-            ui.separator();
 
             ui.add(egui::github_link_file!(
                 "https://github.com/emilk/eframe_template/blob/master/",
                 "Source code."
             ));
+            */
+            ui.separator();
+
+            ui.add( egui::TextEdit::multiline(&mut self.text))
 
             ui.with_layout(egui::Layout::bottom_up(egui::Align::LEFT), |ui| {
                 powered_by_egui_and_eframe(ui);
